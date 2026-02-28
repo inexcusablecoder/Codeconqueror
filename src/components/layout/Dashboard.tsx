@@ -112,7 +112,8 @@ export default function Dashboard() {
     return coins.find((c: Coin) => c.id === selectedCoinId) || coins[0];
   }, [coins, selectedCoinId]);
 
-  const watchlistIds = watchlist.map((i: WatchlistItem) => i.id);
+  const safeWatchlist = Array.isArray(watchlist) ? watchlist : [];
+const watchlistIds = safeWatchlist.map((i) => i.id);
 
   return (
     <div className="min-h-screen bg-[#0A0A0B] text-zinc-300 font-sans">
@@ -225,9 +226,9 @@ export default function Dashboard() {
 
             <div className="col-span-12 lg:col-span-4 max-h-[calc(100vh-10rem)] overflow-y-auto pr-2 custom-scrollbar">
               <WatchlistSidebar
-                items={watchlist}
+                items={safeWatchlist}
                 onRemove={(id) => removeFromWatchlist.mutate(id)}
-              />
+            />
             </div>
           </div>
         ) : activeTab === "activity" ? (
