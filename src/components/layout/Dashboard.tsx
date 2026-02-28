@@ -24,6 +24,31 @@ import ActivityView from "../views/ActivityView";
 import TrendingView from "../views/TrendingView";
 import SettingsView from "../views/SettingsView";
 
+const dummyCoins: Coin[] = [
+  {
+    id: "bitcoin",
+    name: "Bitcoin",
+    symbol: "btc",
+    current_price: 64000,
+    price_change_percentage_24h: 2.4,
+    market_cap: 1250000000000,
+    sparkline_in_7d: {
+      price: Array.from({ length: 50 }, () => 60000 + Math.random() * 5000),
+    },
+  },
+  {
+    id: "ethereum",
+    name: "Ethereum",
+    symbol: "eth",
+    current_price: 3200,
+    price_change_percentage_24h: -1.2,
+    market_cap: 420000000000,
+    sparkline_in_7d: {
+      price: Array.from({ length: 50 }, () => 3000 + Math.random() * 300),
+    },
+  },
+];
+
 export default function Dashboard() {
   const queryClient = useQueryClient();
 
@@ -40,9 +65,8 @@ export default function Dashboard() {
   const { data: coins = [] } = useQuery({
     queryKey: ["marketData"],
     queryFn: async () => {
-      const res = await axios.get("/api/market");
-      return Array.isArray(res.data) ? res.data : [];
-    },
+    return dummyCoins;
+},
     refetchOnWindowFocus: false,
     staleTime: 1000 * 60 * 5,
   });
